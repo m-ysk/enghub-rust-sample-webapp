@@ -25,6 +25,12 @@ impl UserId {
     }
 }
 
+impl std::fmt::Display for UserId {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
+
 pub struct UserName(String);
 
 impl UserName {
@@ -42,6 +48,12 @@ impl UserName {
         }
 
         Ok(UserName(name))
+    }
+}
+
+impl std::fmt::Display for UserName {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
     }
 }
 
