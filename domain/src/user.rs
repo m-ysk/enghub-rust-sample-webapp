@@ -40,9 +40,9 @@ impl UserName {
             return Err(anyhow!("名前はASCII文字でなければなりません: {}", name));
         }
 
-        if !(1..=10).contains(&name.len()) {
+        if !(2..=10).contains(&name.len()) {
             return Err(anyhow!(
-                "名前は1文字以上10文字以下でなけれななりません: {}",
+                "名前は2文字以上10文字以下でなければなりません: {}",
                 name
             ));
         }
@@ -64,12 +64,14 @@ mod test {
     use rstest::rstest;
 
     #[rstest]
-    #[case("a")]
+    #[case("ab")]
     #[case("abcdefghij")]
     #[should_panic]
     #[case("あいう")]
     #[should_panic]
     #[case("")]
+    #[should_panic]
+    #[case("a")]
     #[should_panic]
     #[case("abcdefghijk")]
     fn test_user_name(#[case] name: &str) {
