@@ -2,7 +2,7 @@ use anyhow::anyhow;
 use derive_getters::Getters;
 use uuid::Uuid;
 
-#[derive(Getters)]
+#[derive(Clone, Debug, Getters)]
 pub struct User {
     id: UserId,
     name: UserName,
@@ -17,6 +17,7 @@ impl User {
     }
 }
 
+#[derive(Clone, Copy, Debug)]
 pub struct UserId(Uuid);
 
 impl UserId {
@@ -31,6 +32,7 @@ impl std::fmt::Display for UserId {
     }
 }
 
+#[derive(Clone, Debug)]
 pub struct UserName(String);
 
 impl UserName {
