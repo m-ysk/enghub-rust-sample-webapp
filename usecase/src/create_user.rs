@@ -15,7 +15,7 @@ where
     let user_repository = ProvideUserRepository::provide(ctx);
 
     user_repository
-        .save(user.clone())
+        .save(&user)
         .await
         .context("ユーザの作成に失敗しました。")?;
 

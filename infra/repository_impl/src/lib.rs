@@ -16,8 +16,8 @@ struct UserRecord {
     pub name: String,
 }
 
-impl From<User> for UserRecord {
-    fn from(user: User) -> UserRecord {
+impl From<&User> for UserRecord {
+    fn from(user: &User) -> UserRecord {
         UserRecord {
             id: user.id().to_string(),
             name: user.name().to_string(),
@@ -37,7 +37,7 @@ impl UserRepositoryImpl {
 
 #[async_trait]
 impl UserRepository for UserRepositoryImpl {
-    async fn save(&self, user: User) -> anyhow::Result<()> {
+    async fn save(&self, user: &User) -> anyhow::Result<()> {
         tokio::task::block_in_place(|| {
             let user = UserRecord::from(user);
             let conn = self.establish_connection()?;

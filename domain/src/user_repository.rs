@@ -5,7 +5,7 @@ use crate::{User, UserId};
 
 #[async_trait]
 pub trait UserRepository {
-    async fn save(&self, user: User) -> anyhow::Result<()>;
+    async fn save(&self, user: &User) -> anyhow::Result<()>;
     async fn get_by_ids(&self, ids: &[UserId]) -> anyhow::Result<Vec<User>>;
 }
 
