@@ -9,7 +9,7 @@ use tonic::{Request, Response, Status};
 use user::v1::user_service_server::UserService;
 use user::v1::{CreateUserRequest, CreateUserResponse};
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub struct UserServiceHandler {}
 
 #[tonic::async_trait]
