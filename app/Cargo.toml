@@ -9,4 +9,6 @@ edition = "2021"
 tonic = "0.7"
 tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
 
+app_context = { path = "../context/app_context" }
 grpc_handler = { path = "../infra/grpc_handler" }
+repository_impl = { path = "../infra/repository_impl" }

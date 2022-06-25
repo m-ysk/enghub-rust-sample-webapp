@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0.57"
 async-trait = "0.1.53"
+derive-new = "0.5.9"
 diesel = { version = "1.4.4", features = ["postgres"] }
 tokio = { version = "1.18.2", features = ["rt-multi-thread"] }
 

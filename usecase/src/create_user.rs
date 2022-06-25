@@ -1,7 +1,9 @@
 use anyhow::{self, Context};
 
 use domain::{ProvideUserRepository, User, UserName, UserRepository};
+use typed_builder::TypedBuilder;
 
+#[derive(TypedBuilder)]
 pub struct CreateUserCommand {
     name: UserName,
 }

@@ -1,5 +1,6 @@
 use anyhow::{self, Context as _};
 use async_trait::async_trait;
+use derive_new::new;
 use diesel::{
     pg::{upsert::excluded, PgConnection},
     prelude::*,
@@ -25,6 +26,7 @@ impl From<&User> for UserRecord {
     }
 }
 
+#[derive(new)]
 pub struct UserRepositoryImpl {
     database_url: String,
 }

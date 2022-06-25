@@ -53,6 +53,14 @@ impl UserName {
     }
 }
 
+impl TryFrom<String> for UserName {
+    type Error = anyhow::Error;
+
+    fn try_from(name: String) -> anyhow::Result<UserName> {
+        UserName::new(name)
+    }
+}
+
 impl std::fmt::Display for UserName {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.0)
