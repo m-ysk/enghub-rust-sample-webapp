@@ -3,13 +3,13 @@ pub mod user {
         tonic::include_proto!("user.v1");
     }
 }
+mod convert;
 
 use derive_getters::Getters;
 use derive_new::new;
 use tonic::{Request, Response, Status};
 
 use app_context::AppContext;
-use usecase::CreateUserCommand;
 
 use user::v1::user_service_server::UserService;
 use user::v1::{CreateUserRequest, CreateUserResponse};
@@ -25,19 +25,13 @@ impl UserService for UserServiceHandler {
         &self,
         request: Request<CreateUserRequest>,
     ) -> Result<Response<CreateUserResponse>, Status> {
-        println!("Got a request: {request:?}");
+        // gRPCのRequestをUsecaseの引数型に変換する
+        let cmd = request.into_inner().try_into().unwrap();
 
-        let response = usecase::create_user(
-            self.ctx(),
-            CreateUserCommand::builder()
-                .name("test".to_string().try_into().unwrap())
-                .build(),
-        )
-        .await
-        .unwrap();
+        // Usecaseを呼び出す
+        let user = usecase::create_user(self.ctx(), cmd).await.unwrap();
 
-        println!("Response: {response:?}");
-
-        Err(Status::unimplemented("unimplemented!"))
+        // Responseを返す
+        Ok(Response::new(user.into()))
     }
 }

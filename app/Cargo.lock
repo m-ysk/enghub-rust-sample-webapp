@@ -296,9 +296,11 @@ dependencies = [
 name = "grpc_handler"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "app_context",
  "derive-getters",
  "derive-new",
+ "domain",
  "prost",
  "tokio",
  "tonic",
