@@ -15,6 +15,7 @@ derive-new = "0.5.9"
 
 app_context = { path = "../../context/app_context" }
 domain = { path = "../../domain" }
+error = { path = "../../common/error" }
 usecase = { path = "../../usecase" }
 
 [build-dependencies]

@@ -1,6 +1,7 @@
 use anyhow::{self, Context};
 
 use domain::User;
+use error::AppError;
 use usecase::CreateUserCommand;
 
 use crate::user::v1::{CreateUserRequest, CreateUserResponse, User as PbUser};
@@ -13,7 +14,7 @@ impl TryFrom<CreateUserRequest> for CreateUserCommand {
         let cmd = CreateUserCommand::builder()
             .name(
                 name.try_into()
-                    .context("failed to convert CreateUserRequest")?,
+                    .with_context(|| AppError::InvalidArgument(format!("invalid name")))?,
             )
             .build();
         Ok(cmd)

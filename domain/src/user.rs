@@ -1,6 +1,8 @@
-use anyhow::anyhow;
+use anyhow::bail;
 use derive_getters::Getters;
 use uuid::Uuid;
+
+use error::AppError;
 
 #[derive(Clone, Debug, Getters)]
 pub struct User {
@@ -37,15 +39,16 @@ pub struct UserName(String);
 
 impl UserName {
     pub fn new(name: String) -> anyhow::Result<UserName> {
-        // bail!またはensure!を使うともっと簡潔に書けます。
+        // ensure!を使うともっと短く書けます。
         if !name.is_ascii() {
-            return Err(anyhow!("名前はASCII文字でなければなりません: {}", name));
+            bail!(AppError::InvalidArgument(
+                "username should consist of ascii characters".to_string(),
+            ));
         }
 
         if !(2..=10).contains(&name.len()) {
-            return Err(anyhow!(
-                "名前は2文字以上10文字以下でなければなりません: {}",
-                name
+            bail!(AppError::InvalidArgument(
+                "username should consist of from 2 to 10 characters".to_string(),
             ));
         }
 

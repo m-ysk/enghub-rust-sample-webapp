@@ -11,5 +11,7 @@ async-trait = "0.1.53"
 derive-getters = "0.2.0"
 uuid = { version = "1.0.0", features = ["v4"]}
 
+error = { path = "../common/error" }
+
 [dev-dependencies]
 rstest = "0.13.0"

@@ -10,6 +10,7 @@ use derive_new::new;
 use tonic::{Request, Response, Status};
 
 use app_context::AppContext;
+use error::AppError;
 
 use user::v1::user_service_server::UserService;
 use user::v1::{CreateUserRequest, CreateUserResponse};
@@ -41,7 +42,20 @@ impl UserService for UserServiceHandler {
     }
 }
 
-fn handle_error(error: anyhow::Error) -> Status {
-    eprintln!("{error:?}");
-    Status::internal(format!("{error:?}"))
+fn handle_error(err: anyhow::Error) -> Status {
+    // 監視のためにエラーの詳細をログ出力する。
+    // バックトレースも含めて出力される。
+    eprintln!("{err:?}");
+
+    // ユーザには最も外側のエラーの内容だけを返す。
+    // まずは、errの中身をAppError型にキャストできるかどうかを試す。
+    match err.downcast_ref::<AppError>() {
+        // AppError型の場合、種類ごとにStatusを分けてメッセージを返す
+        Some(err) => match err {
+            AppError::InvalidArgument(msg) => Status::invalid_argument(msg),
+            AppError::Internal(msg) => Status::internal(msg),
+        },
+        // AppError型でない場合、ユーザに見せるべき内容かどうか分からないので、エラーが発生した旨のみ通知する
+        None => Status::internal("internal error"),
+    }
 }
