@@ -26,12 +26,22 @@ impl UserService for UserServiceHandler {
         request: Request<CreateUserRequest>,
     ) -> Result<Response<CreateUserResponse>, Status> {
         // gRPCのRequestをUsecaseの引数型に変換する
-        let cmd = request.into_inner().try_into().unwrap();
+        let cmd = request
+            .into_inner()
+            .try_into()
+            .map_err(|e| handle_error(e))?;
 
         // Usecaseを呼び出す
-        let user = usecase::create_user(self.ctx(), cmd).await.unwrap();
+        let user = usecase::create_user(self.ctx(), cmd)
+            .await
+            .map_err(|e| handle_error(e))?;
 
         // Responseを返す
         Ok(Response::new(user.into()))
     }
+}
+
+fn handle_error(error: anyhow::Error) -> Status {
+    eprintln!("{error:?}");
+    Status::internal(format!("{error:?}"))
 }
