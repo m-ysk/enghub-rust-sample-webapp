@@ -6,8 +6,11 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+diesel = { version = "1.4.4", features = ["postgres", "r2d2"] }
 tonic = "0.7"
 tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
+r2d2 = "0.8.10"
+r2d2_postgres = "0.18.1"
 
 app_context = { path = "../context/app_context" }
 grpc_handler = { path = "../infra/grpc_handler" }

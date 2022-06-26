@@ -9,8 +9,10 @@ edition = "2021"
 anyhow = "1.0.57"
 async-trait = "0.1.53"
 derive-new = "0.5.9"
-diesel = { version = "1.4.4", features = ["postgres"] }
+diesel = { version = "1.4.4", features = ["postgres", "r2d2"] }
 tokio = { version = "1.18.2", features = ["rt-multi-thread"] }
+r2d2 = "0.8.10"
+r2d2_postgres = "0.18.1"
 
 domain = { path = "../../domain" }
 db_schema = { path = "../db_schema" }

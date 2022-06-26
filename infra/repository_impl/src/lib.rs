@@ -4,8 +4,10 @@ use derive_new::new;
 use diesel::{
     pg::{upsert::excluded, PgConnection},
     prelude::*,
+    r2d2::ConnectionManager,
     Insertable, Queryable,
 };
+use r2d2::Pool;
 
 use db_schema::users;
 use domain::{User, UserId, UserRepository};
@@ -28,13 +30,7 @@ impl From<&User> for UserRecord {
 
 #[derive(new)]
 pub struct UserRepositoryImpl {
-    database_url: String,
-}
-
-impl UserRepositoryImpl {
-    fn establish_connection(&self) -> anyhow::Result<PgConnection> {
-        PgConnection::establish(&self.database_url).context("データベースへの接続に失敗しました")
-    }
+    pool: Pool<ConnectionManager<PgConnection>>,
 }
 
 #[async_trait]
@@ -42,7 +38,7 @@ impl UserRepository for UserRepositoryImpl {
     async fn save(&self, user: &User) -> anyhow::Result<()> {
         tokio::task::block_in_place(|| {
             let user = UserRecord::from(user);
-            let conn = self.establish_connection()?;
+            let conn = self.pool.get()?;
 
             diesel::insert_into(users::table)
                 .values(user)
