@@ -7,8 +7,10 @@ use repository_impl::UserRepositoryImpl;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let user_repository =
-        UserRepositoryImpl::new("postgres://postgres:password@localhost:5432/sample".to_string());
+    let database_url =
+        std::env::var("DATABASE_URL").expect("failed to read the env var DATABASE_URL");
+
+    let user_repository = UserRepositoryImpl::new(database_url);
     let context = AppContext { user_repository };
     let user_service = UserServiceHandler::new(context);
 
