@@ -16,3 +16,4 @@ r2d2_postgres = "0.18.1"
 
 domain = { path = "../../domain" }
 db_schema = { path = "../db_schema" }
+error = { path = "../../common/error" }

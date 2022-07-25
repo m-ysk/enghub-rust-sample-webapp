@@ -39,7 +39,7 @@ pub struct UserName(String);
 
 impl UserName {
     pub fn new(name: String) -> anyhow::Result<UserName> {
-        // ensure!を使うともっと短く書けます。
+        // anyhow::ensure!を使うともっと短く書けます。
         if !name.is_ascii() {
             bail!(AppError::InvalidArgument(
                 "username should consist of ascii characters".to_string(),

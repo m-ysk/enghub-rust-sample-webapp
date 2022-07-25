@@ -1,4 +1,4 @@
-use anyhow::{self, Context as _};
+use anyhow::{self, Context};
 use async_trait::async_trait;
 use derive_new::new;
 use diesel::{
@@ -11,6 +11,7 @@ use r2d2::Pool;
 
 use db_schema::users;
 use domain::{User, UserId, UserRepository};
+use error::AppError;
 
 #[derive(Queryable, Insertable)]
 #[table_name = "users"]
@@ -46,7 +47,9 @@ impl UserRepository for UserRepositoryImpl {
                 .do_update()
                 .set(users::name.eq(excluded(users::name)))
                 .execute(&conn)
-                .context("ユーザの保存に失敗しました")?;
+                .with_context(|| {
+                    AppError::Internal("failed to insert or update user".to_string())
+                })?;
 
             Ok(())
         })

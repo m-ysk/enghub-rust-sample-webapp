@@ -10,3 +10,4 @@ anyhow = "1.0.57"
 typed-builder = "0.10.0"
 
 domain = { path = "../domain" }
+error = { path = "../common/error" }

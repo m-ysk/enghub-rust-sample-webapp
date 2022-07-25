@@ -1,7 +1,8 @@
 use anyhow::{self, Context};
+use typed_builder::TypedBuilder;
 
 use domain::{ProvideUserRepository, User, UserName, UserRepository};
-use typed_builder::TypedBuilder;
+use error::AppError;
 
 #[derive(TypedBuilder)]
 pub struct CreateUserCommand {
@@ -19,7 +20,7 @@ where
     user_repository
         .save(&user)
         .await
-        .context("ユーザの作成に失敗しました。")?;
+        .with_context(|| AppError::Internal("failed to create user".to_string()))?;
 
     Ok(user)
 }
