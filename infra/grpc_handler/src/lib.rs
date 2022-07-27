@@ -42,6 +42,7 @@ impl UserService for UserServiceHandler {
     }
 }
 
+// 簡略化したエラーハンドリングを行う
 fn handle_error(err: anyhow::Error) -> Status {
     // 監視のためにエラーの詳細をログ出力する。
     // バックトレースも含めて出力される。
@@ -53,6 +54,7 @@ fn handle_error(err: anyhow::Error) -> Status {
         // AppError型の場合、種類ごとにStatusを分けてメッセージを返す
         Some(err) => match err {
             AppError::InvalidArgument(msg) => Status::invalid_argument(msg),
+            AppError::NotFound(msg) => Status::not_found(msg),
             AppError::Internal(msg) => Status::internal(msg),
         },
         // AppError型でない場合、ユーザに見せるべき内容かどうか分からないので、エラーが発生した旨のみ通知する
