@@ -40,9 +40,9 @@ pub struct UserName(String);
 impl UserName {
     pub fn new(name: String) -> anyhow::Result<UserName> {
         // anyhow::ensure!を使うともっと短く書けます。
-        if !name.is_ascii() {
+        if name.chars().any(|char| !char.is_ascii_alphanumeric()) {
             bail!(AppError::InvalidArgument(
-                "username should consist of ascii characters".to_string(),
+                "username should consist of ascii alphanumerics".to_string(),
             ));
         }
 
@@ -87,6 +87,10 @@ mod test {
     #[case("a")]
     #[should_panic]
     #[case("abcdefghijk")]
+    #[should_panic]
+    #[case("ab cd")]
+    #[should_panic]
+    #[case("ab\n")]
     fn test_user_name(#[case] name: &str) {
         let _ = UserName::new(name.to_string()).unwrap();
     }
