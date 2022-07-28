@@ -3,6 +3,15 @@
 version = 3
 
 [[package]]
+name = "aho-corasick"
+version = "0.7.18"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1e37cfd5e7657ada45f742d6e99ca5788580b5c529dc78faf11ece6dc702656f"
+dependencies = [
+ "memchr",
+]
+
+[[package]]
 name = "anyhow"
 version = "1.0.58"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -145,6 +154,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "difflib"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6184e33543162437515c2e2b48714794e37845ec9851711914eec9d308f6ebe8"
+
+[[package]]
 name = "digest"
 version = "0.10.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -163,8 +178,21 @@ dependencies = [
  "async-trait",
  "derive-getters",
  "error",
+ "mockall",
  "uuid",
 ]
+
+[[package]]
+name = "downcast"
+version = "0.11.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1435fa1053d8b2fbbe9be7e97eca7f33d37b28409959813daefc1446a14247f1"
+
+[[package]]
+name = "either"
+version = "1.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3f107b87b6afc2a64fd13cac55fe06d6c8859f12d4b14cbcdd2c67d0976781be"
 
 [[package]]
 name = "error"
@@ -178,6 +206,21 @@ name = "fallible-iterator"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4443176a9f2c162692bd3d352d745ef9413eec5782a80d8fd6f8a1ac692a07f7"
+
+[[package]]
+name = "float-cmp"
+version = "0.9.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "98de4bbd547a563b716d8dfa9aad1cb19bfab00f4fa09a6a4ed21dbcf44ce9c4"
+dependencies = [
+ "num-traits",
+]
+
+[[package]]
+name = "fragile"
+version = "1.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "85dcb89d2b10c5f6133de2efd8c11959ce9dbb46a2f7a4cab208c4eeda6ce1ab"
 
 [[package]]
 name = "futures"
@@ -308,6 +351,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "itertools"
+version = "0.10.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a9a9d19fa1e79b6215ff29b9d6880b706147f16e9b1dbb1e4e5947b5b02bc5e3"
+dependencies = [
+ "either",
+]
+
+[[package]]
+name = "lazy_static"
+version = "1.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
+
+[[package]]
 name = "libc"
 version = "0.2.126"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -357,6 +415,48 @@ dependencies = [
  "log",
  "wasi",
  "windows-sys",
+]
+
+[[package]]
+name = "mockall"
+version = "0.11.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e2be9a9090bc1cac2930688fa9478092a64c6a92ddc6ae0692d46b37d9cab709"
+dependencies = [
+ "cfg-if",
+ "downcast",
+ "fragile",
+ "lazy_static",
+ "mockall_derive",
+ "predicates",
+ "predicates-tree",
+]
+
+[[package]]
+name = "mockall_derive"
+version = "0.11.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "86d702a0530a0141cf4ed147cf5ec7be6f2c187d4e37fcbefc39cf34116bfe8f"
+dependencies = [
+ "cfg-if",
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
+name = "normalize-line-endings"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "61807f77802ff30975e01f4f071c8ba10c022052f98b3294119f3e615d13e5be"
+
+[[package]]
+name = "num-traits"
+version = "0.2.15"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "578ede34cf02f8924ab9447f50c28075b4d3e5b269972345e7e0372b38c6cdcd"
+dependencies = [
+ "autocfg",
 ]
 
 [[package]]
@@ -493,6 +593,36 @@ dependencies = [
 ]
 
 [[package]]
+name = "predicates"
+version = "2.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a5aab5be6e4732b473071984b3164dbbfb7a3674d30ea5ff44410b6bcd960c3c"
+dependencies = [
+ "difflib",
+ "float-cmp",
+ "itertools",
+ "normalize-line-endings",
+ "predicates-core",
+ "regex",
+]
+
+[[package]]
+name = "predicates-core"
+version = "1.0.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "da1c2388b1513e1b605fcec39a95e0a9e8ef088f71443ef37099fa9ae6673fcb"
+
+[[package]]
+name = "predicates-tree"
+version = "1.0.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4d86de6de25020a36c6d3643a86d9a6a9f552107c0559c60ea03551b5e16c032"
+dependencies = [
+ "predicates-core",
+ "termtree",
+]
+
+[[package]]
 name = "proc-macro2"
 version = "1.0.40"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -571,6 +701,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "regex"
+version = "1.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4c4eb3267174b8c6c2f654116623910a0fef09c4753f8dd83db29c48a0df988b"
+dependencies = [
+ "aho-corasick",
+ "memchr",
+ "regex-syntax",
+]
+
+[[package]]
+name = "regex-syntax"
+version = "0.6.27"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a3f87b73ce11b1619a3c6332f45341e0047173771e8b8b73f87bfeefb7b56244"
+
+[[package]]
 name = "repository_impl"
 version = "0.1.0"
 dependencies = [
@@ -580,6 +727,7 @@ dependencies = [
  "derive-new",
  "diesel",
  "domain",
+ "error",
  "r2d2",
  "r2d2_postgres",
  "tokio",
@@ -665,6 +813,12 @@ dependencies = [
  "quote",
  "unicode-ident",
 ]
+
+[[package]]
+name = "termtree"
+version = "0.2.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "507e9898683b6c43a9aa55b64259b721b52ba226e0f3779137e50ad114a4c90b"
 
 [[package]]
 name = "thiserror"

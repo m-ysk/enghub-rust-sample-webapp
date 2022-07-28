@@ -3,6 +3,7 @@ use async_trait::async_trait;
 
 use crate::{User, UserId};
 
+#[mockall::automock]
 #[async_trait]
 pub trait UserRepository {
     async fn save(&self, user: &User) -> anyhow::Result<()>;

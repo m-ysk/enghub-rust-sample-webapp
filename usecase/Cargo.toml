@@ -11,3 +11,9 @@ typed-builder = "0.10.0"
 
 domain = { path = "../domain" }
 error = { path = "../common/error" }
+
+[dev-dependencies]
+tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
+mockall = "0.11.2"
+
+mock_context = { path = "../context/mock_context" }
