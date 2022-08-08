@@ -29,6 +29,16 @@ impl From<&User> for UserRecord {
     }
 }
 
+impl TryFrom<UserRecord> for User {
+    type Error = anyhow::Error;
+
+    fn try_from(user: UserRecord) -> anyhow::Result<User> {
+        let UserRecord { id, name } = user;
+
+        User::reconstruct(id, name)
+    }
+}
+
 #[derive(new)]
 pub struct UserRepositoryImpl {
     pool: Pool<ConnectionManager<PgConnection>>,
@@ -55,7 +65,17 @@ impl UserRepository for UserRepositoryImpl {
         })
     }
 
-    async fn get_by_ids(&self, _ids: &[UserId]) -> anyhow::Result<Vec<User>> {
-        todo!()
+    async fn get_by_ids(&self, ids: &[UserId]) -> anyhow::Result<Vec<User>> {
+        tokio::task::block_in_place(|| {
+            let ids = ids.iter().map(|id| id.to_string()).collect::<Vec<_>>();
+            let conn = self.pool.get()?;
+
+            let users = users::table
+                .filter(users::id.eq_any(ids))
+                .load::<UserRecord>(&conn)
+                .with_context(|| AppError::Internal("failed to get user".to_string()))?;
+
+            users.into_iter().map(TryInto::try_into).collect()
+        })
     }
 }

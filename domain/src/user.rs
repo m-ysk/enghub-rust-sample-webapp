@@ -1,4 +1,6 @@
-use anyhow::bail;
+use std::str::FromStr;
+
+use anyhow::{bail, Context};
 use derive_getters::Getters;
 use uuid::Uuid;
 
@@ -19,12 +21,38 @@ impl User {
     }
 }
 
+impl User {
+    /// データベースに保存されたユーザーをドメインのエンティティとして再構築します。
+    pub fn reconstruct(id: String, name: String) -> anyhow::Result<User> {
+        let id = id.parse().with_context(|| {
+            AppError::Internal("failed to reconstruct user: invalid id".to_string())
+        })?;
+
+        let name = name.try_into().with_context(|| {
+            AppError::Internal("failed to reconstruct user: invalid name".to_string())
+        })?;
+
+        Ok(User { id, name })
+    }
+}
+
 #[derive(Clone, Copy, Debug)]
 pub struct UserId(Uuid);
 
 impl UserId {
     pub fn new() -> UserId {
         UserId(Uuid::new_v4())
+    }
+}
+
+impl FromStr for UserId {
+    type Err = anyhow::Error;
+
+    fn from_str(id: &str) -> anyhow::Result<UserId> {
+        let id = id
+            .parse()
+            .with_context(|| AppError::InvalidArgument("invalid user id".to_string()))?;
+        Ok(UserId(id))
     }
 }
 
