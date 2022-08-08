@@ -13,7 +13,9 @@ use app_context::AppContext;
 use error::AppError;
 
 use user::v1::user_service_server::UserService;
-use user::v1::{CreateUserRequest, CreateUserResponse};
+use user::v1::{
+    CreateUserRequest, CreateUserResponse, GetUsersByIdsRequest, GetUsersByIdsResponse,
+};
 
 #[derive(new, Getters)]
 pub struct UserServiceHandler {
@@ -39,6 +41,13 @@ impl UserService for UserServiceHandler {
 
         // Responseを返す
         Ok(Response::new(user.into()))
+    }
+
+    async fn get_users_by_ids(
+        &self,
+        _request: Request<GetUsersByIdsRequest>,
+    ) -> Result<Response<GetUsersByIdsResponse>, Status> {
+        todo!()
     }
 }
 

@@ -3,6 +3,7 @@ package user.v1;
 
 service UserService {
   rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+  rpc GetUsersByIds(GetUsersByIdsRequest) returns (GetUsersByIdsResponse);
 }
 
 message CreateUserRequest {
@@ -11,6 +12,14 @@ message CreateUserRequest {
 
 message CreateUserResponse {
   User user = 1;
+}
+
+message GetUsersByIdsRequest {
+  repeated string ids = 1;
+}
+
+message GetUsersByIdsResponse {
+  repeated User users = 1;
 }
 
 message User {
