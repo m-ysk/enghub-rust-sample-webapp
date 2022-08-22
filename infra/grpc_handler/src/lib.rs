@@ -45,9 +45,18 @@ impl UserService for UserServiceHandler {
 
     async fn get_users_by_ids(
         &self,
-        _request: Request<GetUsersByIdsRequest>,
+        request: Request<GetUsersByIdsRequest>,
     ) -> Result<Response<GetUsersByIdsResponse>, Status> {
-        todo!()
+        let ids = request
+            .into_inner()
+            .try_into()
+            .map_err(|e| handle_error(e))?;
+
+        let users = usecase::get_users_by_ids(self.ctx(), ids)
+            .await
+            .map_err(|e| handle_error(e))?;
+
+        Ok(Response::new(users.into()))
     }
 }
 
